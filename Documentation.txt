@@ -11,3 +11,4 @@
 11. Supabase - https://supabase.com
 12. AssemblyAI - https://www.assemblyai.com/
 13. NEBIUS_API - https://studio.nebius.com/
+14. Remotion - https://www.remotion.dev/

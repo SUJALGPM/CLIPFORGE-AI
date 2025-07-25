@@ -8,6 +8,9 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import CustomLoading from "../_components/CustomLoading";
 import { VideoDataContext } from "../../_content/VideoDataContext";
+import { useUser } from "@clerk/nextjs";
+import { db } from "../../../configs/db";
+import { VideoData } from "../../../configs/schema";
 
 function CreateNew() {
   const [formData, setFormData] = useState([]);
@@ -17,6 +20,8 @@ function CreateNew() {
   const [captions, setCaptions] = useState();
   const [imageList, setImageList] = useState([]);
   const { videoData, setVideoData } = useContext(VideoDataContext);
+  const { user } = useUser();
+  const [isSaved, setIsSaved] = useState(false);
 
   //Handle form inputs...
   const onHandleInputChange = (fieldName, fieldValue) => {
@@ -137,8 +142,8 @@ function CreateNew() {
     setLoading(true);
 
     try {
-      // Get the first 3 prompts from the data array
       const firstThreePrompts = data.slice(0, 2);
+      const generatedImages = [];
 
       for (const item of firstThreePrompts) {
         const prompt = item?.imagePrompt;
@@ -150,16 +155,18 @@ function CreateNew() {
 
         const imageUrl = response.data?.imageUrl;
         if (imageUrl) {
-          setImageList((prev) => [...prev, imageUrl]);
+          generatedImages.push(imageUrl);
         }
-
-        setVideoData((prev) => ({
-          ...prev,
-          imageList: imageList,
-        }));
-
-        console.log(videoScript, audioFileUrl, captions);
       }
+
+      setImageList(generatedImages);
+
+      setVideoData((prev) => ({
+        ...prev,
+        imageList: generatedImages,
+      }));
+
+      console.log("Generated image list:", generatedImages);
     } catch (error) {
       console.error("Image generation failed:", error);
     } finally {
@@ -168,9 +175,42 @@ function CreateNew() {
   };
 
   // Check data is store in context...
-  useEffect(()=>{
+  useEffect(() => {
     console.log("Ongoing data :", videoData);
-  },[videoData]);
+    const isReadyToSave =
+      videoData?.videoScript &&
+      videoData?.audioFileUrl &&
+      videoData?.captions &&
+      videoData?.imageList?.length > 0;
+
+    if (isReadyToSave && !isSaved) {
+      SaveVideoData();
+      setIsSaved(true);
+    }
+  }, [videoData, isSaved]);
+
+  // Handle save video data...
+  const SaveVideoData = async () => {
+    setLoading(true);
+    try {
+      const result = await db
+        .insert(VideoData)
+        .values({
+          script: videoData?.videoScript,
+          audioFileUrl: videoData?.audioFileUrl,
+          captions: videoData?.captions,
+          imageList: videoData?.imageList,
+          createdBy: user?.primaryEmailAddress?.emailAddress || "unknown",
+        })
+        .returning({ id: VideoData?.id });
+
+      console.log(" Data saved:", result);
+    } catch (error) {
+      console.error(" Error saving video data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="md:px-20">

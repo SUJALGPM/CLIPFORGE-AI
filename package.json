@@ -20,6 +20,7 @@
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
+    "@remotion/cli": "4.0.327",
     "@supabase/supabase-js": "^2.52.1",
     "assemblyai": "^4.14.0",
     "axios": "^1.11.0",
@@ -35,6 +36,7 @@
     "openai": "^5.10.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "remotion": "4.0.327",
     "replicate": "^1.0.1",
     "tailwind-merge": "^3.3.1",
     "uuid": "^11.1.0"
