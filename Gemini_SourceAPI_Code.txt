@@ -1,0 +1,234 @@
+1.AppScripts
+// See https://developers.google.com/apps-script/guides/properties
+// for instructions on how to set the script properties.
+const apiKey = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
+const model = 'gemini-2.5-pro';
+const api = 'streamGenerateContent';
+const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:${api}?key=${apiKey}`;
+
+function main() {
+  const payload = {
+    contents: [
+      {
+        role: 'user',
+        parts: [
+          {
+            text: `\nWrite a script to generate 30 seconds video on topic: Interesting historical story along with Al image prompt in Realistic format for each scene and give me result in JSON format with imagePrompt and ContentText as field`
+          },
+        ]
+      },
+      {
+        role: 'model',
+        parts: [
+          {
+            text: `**Discovering Visual Narrative**\n\nI'm currently focused on finding a captivating historical narrative, relatively concise and with visually distinct scenes. My goal is to use this narrative as the basis for detailed, realistic image prompts, suitable for further development.\n\n\n**Outlining the Project Structure**\n\nI've just structured the project, so it now includes searching for an interesting historical story. I'll take this and turn it into detailed prompts for realistic images. Each of these will be formatted in JSON.\n\n\n**Exploring Historical Video Scripts**\n\nI'm currently fleshing out the script structure. Based on early search results, I've identified several promising historical narratives suitable for a short video. The focus now is refining the scene-by-scene breakdown and crafting compelling narration for each. My goal is to maximize impact within the 30-second timeframe and provide specific image prompts for realistic visuals.\n\n\n**Refining Script Concepts**\n\nI've narrowed down the historical video script concepts. The \"Great Emu War,\" \"War of the Bucket,\" and \"Dancing Plague\" are top contenders. Each presents unique visual opportunities. Now I'm focusing on crafting compelling narratives for each, aiming for a punchy 30-second video. My next step is structuring the script scenes for each story.\n\n\n**Selecting a Primary Concept**\n\nThe Great Emu War has emerged as the most suitable option, given its straightforward narrative and comedic potential for a 30-second video. I've broken the story into five distinct scenes, ensuring a concise and engaging presentation: farmer frustration, military intervention, initial failure, absurd attempts, and a humorous defeat acknowledgement. My next action is to craft compelling narration for each scene.\n\n\n**Crafting the Emu War Script**\n\nI've finalized the script for the Great Emu War.  Each scene now has both `ContentText` (narration) and a detailed `imagePrompt`. I aimed for concise yet impactful narration, striving for a comedic tone as well. The prompts will guide the image generator to produce realistic and visually appealing scenes.  I am ready to review and refine the content, specifically for timing and humor, to ensure the 30-second target and comedic effect are achieved.\n\n\n**Structuring the Emu War Script**\n\nI've completed the initial script structure, scene descriptions, and `ContentText`. My focus now shifts to refining the `imagePrompts` for each scene. I'm aiming for concise yet impactful narration, striving for a comedic tone as well. The prompts will guide the image generator to produce realistic and visually appealing scenes. I am ready to review and refine the content, specifically for timing and humor, to ensure the 30-second target and comedic effect are achieved.\n\n\n**Finalizing Script Content**\n\nI've completed the JSON output for the Great Emu War script. The script is structured with scene descriptions, `ContentText` (narration), and detailed `imagePrompts`. All text and prompts aim to maintain a comedic tone. The video aims to be a humorous and engaging 30-second video of an interesting and bizarre historical event, specifically the Great Emu War. My next task is to produce the JSON output.\n\n```json\n[\n  {\n    \"scene\": 1,\n    \"ContentText\": \"In 1932, Western Australia faced an unusual enemy. 20,000 emus, driven by drought, invaded farmlands, devastating crops.\",\n    \"imagePrompt\": \"Realistic, sun-drenched Australian landscape in the 1930s. A vast, dry wheat field is being trampled by a huge flock of dozens of large emus. In the foreground, a frustrated, weathered farmer in 1930s attire leans on a wooden fence, looking defeated. The lighting is harsh and dusty.\"\n  },\n  {\n    \"scene\": 2,\n    \"ContentText\": \"The desperate farmers, many of them World War I veterans, pleaded for help. The government's solution? To declare war on the birds, sending in soldiers armed with Lewis machine guns.\",\n    \"imagePrompt\": \"Realistic, 1930s color photograph style. Three Australian soldiers in full military uniform from the era, looking determined. They are setting up a Lewis machine gun on a tripod in the middle of a sparse, arid field. The sky is a clear, bright blue.\"\n  },\n  {\n    \"scene\": 3,\n    \"ContentText\": \"But the emus proved to be surprisingly formidable opponents. They were fast, dodged erratically in small groups, and their tough hides made them resistant to the bullets.\",\n    \"imagePrompt\": \"Action shot, realistic photography with motion blur. A group of emus are sprinting at full speed across a dusty plain, kicking up dirt. In the background, out of focus, are the soldiers firing a machine gun. The emus appear agile and difficult to target.\"\n  },\n  {\n    \"scene\": 4,\n    \"ContentText\": \"Even attempts to herd the emus into ambushes with trucks were a comical failure. The birds simply outran the vehicles on the rough terrain.\",\n    \"imagePrompt\": \"Humorous, realistic scene. A rickety 1930s farm truck is bouncing wildly over uneven ground, struggling to keep up with a scattering flock of emus. The gunner in the back of the truck is having a difficult time aiming his machine gun due to the bumpy ride.\"\n  },\n  {\n    \"scene\": 5,\n    \"ContentText\": \"After weeks of frustration and very few kills, the military withdrew. The media dubbed it 'The Great Emu War,' a conflict where, bizarrely, the emus had won.\",\n    \"imagePrompt\": \"Dramatic, realistic portrait. A single, large emu stands proudly in a field at sunset, looking directly at the camera with an intelligent, almost defiant gaze. In the far distance, the soldiers are packing up their equipment, silhouettes against the setting sun.\"\n  }\n]\n```\n\n\n`
+          },
+          {
+            text: ````json\n{\n  \"videoTitle\": \"The Great Emu War of 1932\",\n  \"scenes\": [\n    {\n      \"imagePrompt\": \"Realistic, sun-drenched Australian landscape in the 1930s. A vast, dry wheat field is being trampled by a huge flock of dozens of large emus. In the foreground, a frustrated, weathered farmer in 1930s attire leans on a wooden fence, looking defeated. The lighting is harsh and dusty.\",\n      \"ContentText\": \"In 1932, Western Australia faced an unusual enemy. Twenty-thousand emus, driven by drought, invaded farmlands, devastating the crops of desperate farmers. [1, 11]\"\n    },\n    {\n      \"imagePrompt\": \"Realistic, 1930s color photograph style. Three Australian soldiers in full military uniform from the era, looking determined. They are setting up a Lewis machine gun on a tripod in the middle of a sparse, arid field. The sky is a clear, bright blue.\",\n      \"ContentText\": \"The farmers, many of them World War I veterans, pleaded for help. The government's solution? To declare war on the birds, sending in soldiers armed with machine guns. [14, 7]\"\n    },\n    {\n      \"imagePrompt\": \"Action shot, realistic photography with motion blur. A group of emus are sprinting at full speed across a dusty plain, kicking up dirt. In the background, out of focus, are the soldiers firing a machine gun. The emus appear agile and difficult to target.\",\n      \"ContentText\": \"But the emus proved to be surprisingly formidable opponents. They were fast, dodged erratically in small groups, and their tough hides made them resistant to the bullets. [1, 7]\"\n    },\n    {\n      \"imagePrompt\": \"Humorous, realistic scene. A rickety 1930s farm truck is bouncing wildly over uneven ground, struggling to keep up with a scattering flock of emus. The gunner in the back of the truck is having a difficult time aiming his machine gun due to the bumpy ride.\",\n      \"ContentText\": \"Even attempts to herd the emus into ambushes with trucks were a comical failure. The birds simply outran the vehicles on the rough terrain. [1]\"\n    },\n    {\n      \"imagePrompt\": \"Dramatic, realistic portrait. A single, large emu stands proudly in a field at sunset, looking directly at the camera with an intelligent, almost defiant gaze. In the far distance, the soldiers are packing up their equipment, silhouettes against the setting sun.\",\n      \"ContentText\": \"After weeks of frustration and very few kills, the military withdrew. The media dubbed it 'The Great Emu War,' a conflict where, bizarrely, the emus had won. [1, 18]\"\n    }\n  ]\n}\n````
+          },
+        ]
+      },
+      {
+        role: 'user',
+        parts: [
+          {
+            text: `INSERT_INPUT_HERE`
+          },
+        ]
+      },
+    ],
+    generationConfig: {
+      thinkingConfig: {
+        thinkingBudget: -1,
+      },
+      responseMimeType: 'text/plain',
+    },
+    tools: [
+      {
+        googleSearch: {}
+      },
+    ],
+  };
+
+  const options = {
+    method: 'POST',
+    contentType: 'application/json',
+    muteHttpExceptions: true,
+    payload: JSON.stringify(payload),
+  };
+
+  const response = UrlFetchApp.fetch(url, options);
+  const chunks = JSON.parse(response.getContentText());
+
+  for (const chunk of chunks) {
+    console.log(chunk.candidates[0].content.parts[0].text);
+  }
+}
+
+
+2. Typescript
+// To run this code you need to install the following dependencies:
+// npm install @google/genai mime
+// npm install -D @types/node
+
+import {
+  GoogleGenAI,
+} from '@google/genai';
+
+async function main() {
+  const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+  });
+  const tools = [
+    {
+      googleSearch: {
+      }
+    },
+  ];
+  const config = {
+    thinkingConfig: {
+      thinkingBudget: -1,
+    },
+    tools,
+    responseMimeType: 'text/plain',
+  };
+  const model = 'gemini-2.5-pro';
+  const contents = [
+    {
+      role: 'user',
+      parts: [
+        {
+          text: `
+Write a script to generate 30 seconds video on topic: Interesting historical story along with Al image prompt in Realistic format for each scene and give me result in JSON format with imagePrompt and ContentText as field`,
+        },
+      ],
+    },
+    {
+      role: 'model',
+      parts: [
+        {
+          text: `**Discovering Visual Narrative**
+
+I'm currently focused on finding a captivating historical narrative, relatively concise and with visually distinct scenes. My goal is to use this narrative as the basis for detailed, realistic image prompts, suitable for further development.
+
+
+**Outlining the Project Structure**
+
+I've just structured the project, so it now includes searching for an interesting historical story. I'll take this and turn it into detailed prompts for realistic images. Each of these will be formatted in JSON.
+
+
+**Exploring Historical Video Scripts**
+
+I'm currently fleshing out the script structure. Based on early search results, I've identified several promising historical narratives suitable for a short video. The focus now is refining the scene-by-scene breakdown and crafting compelling narration for each. My goal is to maximize impact within the 30-second timeframe and provide specific image prompts for realistic visuals.
+
+
+**Refining Script Concepts**
+
+I've narrowed down the historical video script concepts. The "Great Emu War," "War of the Bucket," and "Dancing Plague" are top contenders. Each presents unique visual opportunities. Now I'm focusing on crafting compelling narratives for each, aiming for a punchy 30-second video. My next step is structuring the script scenes for each story.
+
+
+**Selecting a Primary Concept**
+
+The Great Emu War has emerged as the most suitable option, given its straightforward narrative and comedic potential for a 30-second video. I've broken the story into five distinct scenes, ensuring a concise and engaging presentation: farmer frustration, military intervention, initial failure, absurd attempts, and a humorous defeat acknowledgement. My next action is to craft compelling narration for each scene.
+
+
+**Crafting the Emu War Script**
+
+I've finalized the script for the Great Emu War.  Each scene now has both \`ContentText\` (narration) and a detailed \`imagePrompt\`. I aimed for concise yet impactful narration, striving for a comedic tone as well. The prompts will guide the image generator to produce realistic and visually appealing scenes.  I am ready to review and refine the content, specifically for timing and humor, to ensure the 30-second target and comedic effect are achieved.
+
+
+**Structuring the Emu War Script**
+
+I've completed the initial script structure, scene descriptions, and \`ContentText\`. My focus now shifts to refining the \`imagePrompts\` for each scene. I'm aiming for concise yet impactful narration, striving for a comedic tone as well. The prompts will guide the image generator to produce realistic and visually appealing scenes. I am ready to review and refine the content, specifically for timing and humor, to ensure the 30-second target and comedic effect are achieved.
+
+
+**Finalizing Script Content**
+
+I've completed the JSON output for the Great Emu War script. The script is structured with scene descriptions, \`ContentText\` (narration), and detailed \`imagePrompts\`. All text and prompts aim to maintain a comedic tone. The video aims to be a humorous and engaging 30-second video of an interesting and bizarre historical event, specifically the Great Emu War. My next task is to produce the JSON output.
+
+\`\`\`json
+[
+  {
+    "scene": 1,
+    "ContentText": "In 1932, Western Australia faced an unusual enemy. 20,000 emus, driven by drought, invaded farmlands, devastating crops.",
+    "imagePrompt": "Realistic, sun-drenched Australian landscape in the 1930s. A vast, dry wheat field is being trampled by a huge flock of dozens of large emus. In the foreground, a frustrated, weathered farmer in 1930s attire leans on a wooden fence, looking defeated. The lighting is harsh and dusty."
+  },
+  {
+    "scene": 2,
+    "ContentText": "The desperate farmers, many of them World War I veterans, pleaded for help. The government's solution? To declare war on the birds, sending in soldiers armed with Lewis machine guns.",
+    "imagePrompt": "Realistic, 1930s color photograph style. Three Australian soldiers in full military uniform from the era, looking determined. They are setting up a Lewis machine gun on a tripod in the middle of a sparse, arid field. The sky is a clear, bright blue."
+  },
+  {
+    "scene": 3,
+    "ContentText": "But the emus proved to be surprisingly formidable opponents. They were fast, dodged erratically in small groups, and their tough hides made them resistant to the bullets.",
+    "imagePrompt": "Action shot, realistic photography with motion blur. A group of emus are sprinting at full speed across a dusty plain, kicking up dirt. In the background, out of focus, are the soldiers firing a machine gun. The emus appear agile and difficult to target."
+  },
+  {
+    "scene": 4,
+    "ContentText": "Even attempts to herd the emus into ambushes with trucks were a comical failure. The birds simply outran the vehicles on the rough terrain.",
+    "imagePrompt": "Humorous, realistic scene. A rickety 1930s farm truck is bouncing wildly over uneven ground, struggling to keep up with a scattering flock of emus. The gunner in the back of the truck is having a difficult time aiming his machine gun due to the bumpy ride."
+  },
+  {
+    "scene": 5,
+    "ContentText": "After weeks of frustration and very few kills, the military withdrew. The media dubbed it 'The Great Emu War,' a conflict where, bizarrely, the emus had won.",
+    "imagePrompt": "Dramatic, realistic portrait. A single, large emu stands proudly in a field at sunset, looking directly at the camera with an intelligent, almost defiant gaze. In the far distance, the soldiers are packing up their equipment, silhouettes against the setting sun."
+  }
+]
+\`\`\`
+
+
+`,
+        },
+        {
+          text: `\`\`\`json
+{
+  "videoTitle": "The Great Emu War of 1932",
+  "scenes": [
+    {
+      "imagePrompt": "Realistic, sun-drenched Australian landscape in the 1930s. A vast, dry wheat field is being trampled by a huge flock of dozens of large emus. In the foreground, a frustrated, weathered farmer in 1930s attire leans on a wooden fence, looking defeated. The lighting is harsh and dusty.",
+      "ContentText": "In 1932, Western Australia faced an unusual enemy. Twenty-thousand emus, driven by drought, invaded farmlands, devastating the crops of desperate farmers. [1, 11]"
+    },
+    {
+      "imagePrompt": "Realistic, 1930s color photograph style. Three Australian soldiers in full military uniform from the era, looking determined. They are setting up a Lewis machine gun on a tripod in the middle of a sparse, arid field. The sky is a clear, bright blue.",
+      "ContentText": "The farmers, many of them World War I veterans, pleaded for help. The government's solution? To declare war on the birds, sending in soldiers armed with machine guns. [14, 7]"
+    },
+    {
+      "imagePrompt": "Action shot, realistic photography with motion blur. A group of emus are sprinting at full speed across a dusty plain, kicking up dirt. In the background, out of focus, are the soldiers firing a machine gun. The emus appear agile and difficult to target.",
+      "ContentText": "But the emus proved to be surprisingly formidable opponents. They were fast, dodged erratically in small groups, and their tough hides made them resistant to the bullets. [1, 7]"
+    },
+    {
+      "imagePrompt": "Humorous, realistic scene. A rickety 1930s farm truck is bouncing wildly over uneven ground, struggling to keep up with a scattering flock of emus. The gunner in the back of the truck is having a difficult time aiming his machine gun due to the bumpy ride.",
+      "ContentText": "Even attempts to herd the emus into ambushes with trucks were a comical failure. The birds simply outran the vehicles on the rough terrain. [1]"
+    },
+    {
+      "imagePrompt": "Dramatic, realistic portrait. A single, large emu stands proudly in a field at sunset, looking directly at the camera with an intelligent, almost defiant gaze. In the far distance, the soldiers are packing up their equipment, silhouettes against the setting sun.",
+      "ContentText": "After weeks of frustration and very few kills, the military withdrew. The media dubbed it 'The Great Emu War,' a conflict where, bizarrely, the emus had won. [1, 18]"
+    }
+  ]
+}
+\`\`\``,
+        },
+      ],
+    },
+    {
+      role: 'user',
+      parts: [
+        {
+          text: `INSERT_INPUT_HERE`,
+        },
+      ],
+    },
+  ];
+
+  const response = await ai.models.generateContentStream({
+    model,
+    config,
+    contents,
+  });
+  let fileIndex = 0;
+  for await (const chunk of response) {
+    console.log(chunk.text);
+  }
+}
+
+main();
