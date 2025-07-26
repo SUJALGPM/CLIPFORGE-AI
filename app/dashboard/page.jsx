@@ -1,11 +1,30 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
 import EmptyState from "./_components/EmptyState";
+import { db } from "../../configs/db";
+import { VideoData } from "../../configs/schema";
+import { eq } from "drizzle-orm";
+import { useUser } from "@clerk/nextjs";
+import VideoList from "./_components/VideoList";
 
 function Dashboard() {
   const [videoList, setVideoList] = useState([]);
+  const {user} = useUser();
+
+
+  // Check user data fro videolist...
+  useEffect(()=>{
+    user&&GetVideoList();
+  },[user]);
+
+  // Handle video list...
+  const GetVideoList=async()=>{
+    const result = await db.select().from(VideoData).where(eq(VideoData?.createdBy,user?.primaryEmailAddress?.emailAddress));
+    console.log("result ala :",result);
+    setVideoList(result);
+  }
 
   return (
     <div>
@@ -22,6 +41,10 @@ function Dashboard() {
           <EmptyState />
         </div>
       )}
+
+      {/* List of Videos */}
+      <VideoList videoList={videoList}/>
+
     </div>
   );
 }

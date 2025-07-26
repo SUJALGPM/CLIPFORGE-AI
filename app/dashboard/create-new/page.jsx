@@ -11,6 +11,7 @@ import { VideoDataContext } from "../../_content/VideoDataContext";
 import { useUser } from "@clerk/nextjs";
 import { db } from "../../../configs/db";
 import { VideoData } from "../../../configs/schema";
+import PlayerDialog from "../_components/PlayerDialog";
 
 function CreateNew() {
   const [formData, setFormData] = useState([]);
@@ -22,6 +23,8 @@ function CreateNew() {
   const { videoData, setVideoData } = useContext(VideoDataContext);
   const { user } = useUser();
   const [isSaved, setIsSaved] = useState(false);
+  const [playVideo,setPlayVideo] = useState(false);
+  const [videoId,setVideoId] = useState();
 
   //Handle form inputs...
   const onHandleInputChange = (fieldName, fieldValue) => {
@@ -204,6 +207,9 @@ function CreateNew() {
         })
         .returning({ id: VideoData?.id });
 
+        setVideoId(result[0].id);
+        setPlayVideo(true);
+
       console.log(" Data saved:", result);
     } catch (error) {
       console.error(" Error saving video data:", error);
@@ -237,6 +243,7 @@ function CreateNew() {
         </Button>
 
         <CustomLoading loading={loading} />
+        <PlayerDialog playVideo={playVideo} videoId={videoId}/>
       </div>
     </div>
   );
