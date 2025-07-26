@@ -10,8 +10,12 @@ import CustomLoading from "../_components/CustomLoading";
 import { VideoDataContext } from "../../_content/VideoDataContext";
 import { useUser } from "@clerk/nextjs";
 import { db } from "../../../configs/db";
-import { VideoData } from "../../../configs/schema";
+import { Users, VideoData } from "../../../configs/schema";
 import PlayerDialog from "../_components/PlayerDialog";
+import { UserDetailContext } from "../../_content/UserDetailContext";
+import { Toaster } from "../../../components/ui/sonner";
+import { toast } from "sonner";
+import { eq } from "drizzle-orm";
 
 function CreateNew() {
   const [formData, setFormData] = useState([]);
@@ -23,8 +27,9 @@ function CreateNew() {
   const { videoData, setVideoData } = useContext(VideoDataContext);
   const { user } = useUser();
   const [isSaved, setIsSaved] = useState(false);
-  const [playVideo,setPlayVideo] = useState(false);
-  const [videoId,setVideoId] = useState();
+  const [playVideo, setPlayVideo] = useState(false);
+  const [videoId, setVideoId] = useState();
+  const { userDetail, setUserDetail } = useContext(UserDetailContext);
 
   //Handle form inputs...
   const onHandleInputChange = (fieldName, fieldValue) => {
@@ -38,6 +43,26 @@ function CreateNew() {
 
   //Handle create new button...
   const onCreateClickHandler = () => {
+    // 1. Check if user has enough credits
+    if (!userDetail || userDetail.credits <= 0) {
+      toast.warning("Not enough credits to create a video!");
+      return;
+    }
+
+    // 2. Validate required form fields
+    const requiredFields = ["topic", "imageStyle", "duration"];
+    const missingFields = requiredFields.filter(
+      (field) => !formData[field] || formData[field].trim() === ""
+    );
+
+    if (missingFields.length > 0) {
+      toast.error(
+        "Please fill in all required fields before creating a video."
+      );
+      return;
+    }
+
+    // 3. Proceed if everything is valid
     GetVideoScript();
   };
 
@@ -207,8 +232,10 @@ function CreateNew() {
         })
         .returning({ id: VideoData?.id });
 
-        setVideoId(result[0].id);
-        setPlayVideo(true);
+      setVideoId(result[0].id);
+      setPlayVideo(true);
+      setVideoData(null);
+      await UpdateUserCredits();
 
       console.log(" Data saved:", result);
     } catch (error) {
@@ -216,6 +243,23 @@ function CreateNew() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Handle after videoCreation minus credits score...
+  const UpdateUserCredits = async () => {
+    const updatedCredits = userDetail?.credits - 10;
+
+    // Update DB..
+    await db
+      .update(Users)
+      .set({ credits: updatedCredits })
+      .where(eq(Users.email, user?.primaryEmailAddress.emailAddress));
+
+    // Update local context..
+    setUserDetail((prev) => ({
+      ...prev,
+      credits: updatedCredits,
+    }));
   };
 
   return (
@@ -238,13 +282,19 @@ function CreateNew() {
         <Button
           className="mt-10 w-full bg-purple-700"
           onClick={onCreateClickHandler}
+          disabled={loading}
         >
-          Create Short
+          {loading ? "Generating..." : "Create Short"}
         </Button>
 
         <CustomLoading loading={loading} />
-        <PlayerDialog playVideo={playVideo} videoId={videoId}/>
+        <PlayerDialog
+          playVideo={playVideo}
+          videoId={videoId}
+          setPlayVideo={setPlayVideo}
+        />
       </div>
+      <Toaster position="top-right" />
     </div>
   );
 }

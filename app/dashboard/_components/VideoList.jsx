@@ -4,9 +4,8 @@ import RemotionVideo from "./RemotionVideo";
 import PlayerDialog from "./PlayerDialog";
 
 function VideoList({ videoList }) {
-
-    const [openPlayerDialog,setOpenPlayerDialog]=useState(false);
-    const [videoId,setVideoId]=useState(1);
+  const [openPlayerDialog, setOpenPlayerDialog] = useState(false);
+  const [videoId, setVideoId] = useState(1);
 
   return (
     <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -14,10 +13,10 @@ function VideoList({ videoList }) {
         <div
           key={video.id || index}
           className="cursor-pointer transition-transform hover:scale-105"
-          onClick={()=>{
-            setOpenPlayerDialog(Date.now());
+          onClick={() => {
+            setOpenPlayerDialog(true);
             setVideoId(video?.id);
-        }}
+          }}
         >
           <Thumbnail
             component={RemotionVideo}
@@ -37,7 +36,12 @@ function VideoList({ videoList }) {
         </div>
       ))}
 
-      <PlayerDialog playVideo={openPlayerDialog} videoId={videoId}/>
+      {/* Add setPlayVideo prop */}
+      <PlayerDialog
+        playVideo={openPlayerDialog}
+        setPlayVideo={setOpenPlayerDialog}
+        videoId={videoId}
+      />
     </div>
   );
 }

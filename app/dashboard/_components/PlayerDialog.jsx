@@ -16,23 +16,23 @@ import { VideoData } from "../../../configs/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "next/navigation";
 
-
-function PlayerDialog({ playVideo, videoId }) {
+function PlayerDialog({ playVideo, setPlayVideo, videoId }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [videoData, setVideoData] = useState(null);
   const [durationInFrames, setDurationInFrames] = useState(30);
   const router = useRouter();
   const fps = 30;
 
-  // handle dialog trigger...
+  // handle dialog trigger with getvideodata...
   useEffect(() => {
-    setOpenDialog(!openDialog);
-    if (videoId) {
+    if (playVideo && videoId) {
+      setOpenDialog(true);
       GetVideoData();
+      setPlayVideo(false); 
     }
-  }, [playVideo]);
+  }, [playVideo, videoId]);
 
-  // handle fetch video data and video length...
+  // Fetch video data for render...
   const GetVideoData = async () => {
     try {
       const result = await db
@@ -42,7 +42,6 @@ function PlayerDialog({ playVideo, videoId }) {
 
       const data = result[0];
 
-      // Parse imageList if it's a string
       if (typeof data.imageList === "string") {
         data.imageList = JSON.parse(data.imageList);
       }
@@ -57,6 +56,13 @@ function PlayerDialog({ playVideo, videoId }) {
     }
   };
 
+  // handle repeat trigger of dialog...
+  const handleCancel = () => {
+    setOpenDialog(false);
+    setPlayVideo(false); 
+    router.replace("/dashboard");
+  };
+
   return (
     <Dialog open={openDialog}>
       <DialogContent className="bg-white flex flex-col items-center">
@@ -65,14 +71,12 @@ function PlayerDialog({ playVideo, videoId }) {
             Your video is ready
           </DialogTitle>
           <DialogDescription>
-            {/* This is valid: no block elements inside */}
             {videoData?.imageList?.length > 0 && (
               <span className="sr-only">Video preview below</span>
             )}
           </DialogDescription>
         </DialogHeader>
 
-        {/* Moved Player outside <DialogDescription> */}
         {videoData?.imageList?.length > 0 && (
           <Player
             component={RemotionVideo}
@@ -85,9 +89,14 @@ function PlayerDialog({ playVideo, videoId }) {
           />
         )}
 
-        {/* Safe placement of buttons */}
         <div className="flex gap-10 mt-5 justify-center">
-          <Button variant={Ghost} onClick={()=>{router.replace('/dashboard');setOpenDialog(false)}} className="cursor-pointer hover:text-red-600 hover:bg-red-100 transition-colors duration-200">Cancel</Button>
+          <Button
+            variant={Ghost}
+            onClick={handleCancel}
+            className="cursor-pointer hover:text-red-600 hover:bg-red-100 transition-colors duration-200"
+          >
+            Cancel
+          </Button>
           <Button>Export</Button>
         </div>
       </DialogContent>
