@@ -6,7 +6,7 @@ function RemotionRoot() {
   return (
      <>
       <Composition
-        id="Empty"
+        id="youtubeShorts"
         component={RemotionVideo}
         durationInFrames={60}
         fps={30}

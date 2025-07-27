@@ -194,7 +194,7 @@ function CreateNew() {
         imageList: generatedImages,
       }));
 
-      console.log("Generated image list:", generatedImages);
+      // console.log("Generated image list:", generatedImages);
     } catch (error) {
       console.error("Image generation failed:", error);
     } finally {
@@ -204,7 +204,7 @@ function CreateNew() {
 
   // Check data is store in context...
   useEffect(() => {
-    console.log("Ongoing data :", videoData);
+    // console.log("Ongoing data :", videoData);
     const isReadyToSave =
       videoData?.videoScript &&
       videoData?.audioFileUrl &&
@@ -237,7 +237,7 @@ function CreateNew() {
       setVideoData(null);
       await UpdateUserCredits();
 
-      console.log(" Data saved:", result);
+      // console.log(" Data saved:", result);
     } catch (error) {
       console.error(" Error saving video data:", error);
     } finally {

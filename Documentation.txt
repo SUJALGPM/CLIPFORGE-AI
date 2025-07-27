@@ -8,7 +8,8 @@
 8. Gemini api key - https://ai.google.dev/gemini-api/docs
 9. Flaticon - https://www.flaticon.com/search?word=loading&type=animated-icon
 10. CloudAPI - https://cloud.google.com/?hl=en
-11. Supabase - https://supabase.com
+11. Supabase[CloudDatabase] - https://supabase.com
 12. AssemblyAI - https://www.assemblyai.com/
 13. NEBIUS_API - https://studio.nebius.com/
 14. Remotion - https://www.remotion.dev/
+15. ShotStack[VideoRendering] - https://shotstack.io/

@@ -21,7 +21,7 @@ function Dashboard() {
   // Handle video list...
   const GetVideoList=async()=>{
     const result = await db.select().from(VideoData).where(eq(VideoData?.createdBy,user?.primaryEmailAddress?.emailAddress));
-    console.log("result ala :",result);
+    // console.log("result ala :",result);
     setVideoList(result);
   }
 
